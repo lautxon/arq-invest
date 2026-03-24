@@ -1,6 +1,10 @@
+import { useState } from 'react'
 import { ArrowRight, Play } from 'lucide-react'
+import VideoPresentation from './VideoPresentation'
 
 const Hero = () => {
+  const [isVideoOpen, setIsVideoOpen] = useState(false)
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background with overlay */}
@@ -58,15 +62,15 @@ const Hero = () => {
               Explorar Proyectos
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
-            <a
-              href="#video"
+            <button
+              onClick={() => setIsVideoOpen(true)}
               className="btn-secondary text-white border-white/30 hover:bg-white/10 flex items-center gap-3"
             >
               <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                 <Play className="w-4 h-4 text-white ml-1" />
               </div>
               Ver Presentación
-            </a>
+            </button>
           </div>
 
           {/* Stats */}
@@ -96,6 +100,9 @@ const Hero = () => {
           <div className="w-1 h-3 bg-white/50 rounded-full"></div>
         </div>
       </div>
+
+      {/* Video Presentation Modal */}
+      <VideoPresentation isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
     </section>
   )
 }
