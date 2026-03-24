@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #fafaf9;
+  color: #1c1917;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-arq-navy-900 text-white px-8 py-4 rounded-sm font-medium 
+           transition-all duration-300 hover:bg-arq-navy-800 
+           hover:shadow-lg hover:shadow-arq-navy-900/20
+           focus:outline-none focus:ring-2 focus:ring-arq-navy-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent text-arq-navy-900 border-2 border-arq-navy-900 px-8 py-4 
+           rounded-sm font-medium transition-all duration-300 
+           hover:bg-arq-navy-900 hover:text-white
+           focus:outline-none focus:ring-2 focus:ring-arq-navy-500 focus:ring-offset-2;
+  }
+
+  .btn-gold {
+    @apply bg-arq-gold-500 text-white px-8 py-4 rounded-sm font-medium 
+           transition-all duration-300 hover:bg-arq-gold-600 
+           hover:shadow-lg hover:shadow-arq-gold-500/20
+           focus:outline-none focus:ring-2 focus:ring-arq-gold-500 focus:ring-offset-2;
+  }
+
+  .card-hover {
+    @apply transition-all duration-500 hover:shadow-2xl hover:-translate-y-2;
+  }
+
+  .section-padding {
+    @apply py-20 md:py-28 lg:py-32;
+  }
+
+  .container-custom {
+    @apply max-w-7xl mx-auto px-6 md:px-12 lg:px-20;
+  }
+
+  .gradient-gold {
+    background: linear-gradient(135deg, #d4a373 0%, #c48a5a 50%, #a66d4b 100%);
+  }
+
+  .gradient-navy {
+    background: linear-gradient(135deg, #102a43 0%, #243b53 50%, #334e68 100%);
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #d4a373 0%, #a66d4b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+.shimmer-effect {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 163, 115, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.gsap-fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.gsap-scale-in {
+  opacity: 0;
+  transform: scale(0.95);
+}
