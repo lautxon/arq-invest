@@ -60,9 +60,7 @@ const VideoPresentation = ({ isOpen, onClose }) => {
   ]
 
   const totalSlides = slides.length
-  const slideDuration = 15000 / totalSlides
 
-  // Auto-advance slides when playing
   useEffect(() => {
     if (!isPlaying || !isOpen) return
 
@@ -76,12 +74,11 @@ const VideoPresentation = ({ isOpen, onClose }) => {
         }
         return next
       })
-    }, slideDuration)
+    }, 15000 / totalSlides)
 
     return () => clearInterval(interval)
-  }, [isPlaying, isOpen, totalSlides, slideDuration, onClose])
+  }, [isPlaying, isOpen, totalSlides, onClose])
 
-  // Update progress bar
   useEffect(() => {
     if (!isPlaying || !isOpen) return
 
@@ -96,7 +93,6 @@ const VideoPresentation = ({ isOpen, onClose }) => {
     return () => clearInterval(interval)
   }, [isPlaying, isOpen])
 
-  // Handle open/close
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
