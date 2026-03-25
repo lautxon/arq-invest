@@ -3,7 +3,7 @@ import { CreditCard, Bitcoin, Building, FileText, Shield, Calendar, Wallet as Wa
 const PaymentOptions = () => {
   const paymentMethods = [
     {
-      icon: Wallet,
+      icon: WalletIcon,
       title: 'Mercado Pago',
       description: 'Pagá con saldo, tarjeta o QR. Aceptamos todas las tarjetas argentinas.',
       color: 'arq-gold',
