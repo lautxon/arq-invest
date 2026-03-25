@@ -60,26 +60,33 @@ const VideoPresentation = ({ isOpen, onClose }) => {
   ]
 
   const totalSlides = slides.length
-  const slideDuration = 15000 / totalSlides // ~2.14 segundos por slide
+  const slideDuration = 15000 / totalSlides
 
   // Auto-advance slides when playing
   useEffect(() => {
     if (!isPlaying || !isOpen) return
+    console.log('Presentation playing, current slide:', currentSlide)
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => {
         const next = prev + 1
         if (next >= totalSlides) {
           setIsPlaying(false)
-          setTimeout(onClose, 500)
+          setTimeout(() => {
+            onClose()
+            console.log('Presentation finished')
+          }, 500)
           return prev
         }
         return next
       })
     }, slideDuration)
 
-    return () => clearInterval(interval)
-  }, [isPlaying, isOpen, totalSlides, slideDuration, onClose])
+    return () => {
+      clearInterval(interval)
+      console.log('Interval cleared')
+    }
+  }, [isPlaying, isOpen, totalSlides, slideDuration, onClose, currentSlide])
 
   // Update progress bar
   useEffect(() => {
@@ -100,11 +107,19 @@ const VideoPresentation = ({ isOpen, onClose }) => {
 
   // Auto-play when opened
   useEffect(() => {
+    console.log('isOpen changed:', isOpen)
     if (isOpen) {
       document.body.style.overflow = 'hidden'
       setCurrentSlide(0)
       setProgress(0)
-      const timer = setTimeout(() => setIsPlaying(true), 300)
+      setIsPlaying(false)
+      
+      // Start playing after a short delay
+      const timer = setTimeout(() => {
+        setIsPlaying(true)
+        console.log('Presentation started')
+      }, 500)
+      
       return () => clearTimeout(timer)
     } else {
       document.body.style.overflow = 'unset'
@@ -114,24 +129,38 @@ const VideoPresentation = ({ isOpen, onClose }) => {
     }
   }, [isOpen])
 
-  const handlePlay = () => setIsPlaying(true)
-  const handlePause = () => setIsPlaying(false)
+  const handlePlay = () => {
+    console.log('Play clicked')
+    setIsPlaying(true)
+  }
+  
+  const handlePause = () => {
+    console.log('Pause clicked')
+    setIsPlaying(false)
+  }
 
   const handleReset = () => {
+    console.log('Reset clicked')
     setCurrentSlide(0)
     setProgress(0)
     setIsPlaying(true)
   }
 
   const handleClose = () => {
+    console.log('Close clicked')
     setIsPlaying(false)
     onClose()
   }
 
-  if (!isOpen) return null
+  if (!isOpen) {
+    console.log('Presentation closed, returning null')
+    return null
+  }
 
   const currentSlideData = slides[currentSlide]
   const CurrentIcon = currentSlideData.icon
+
+  console.log('Rendering slide:', currentSlide, currentSlideData.title)
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center">
@@ -177,7 +206,7 @@ const VideoPresentation = ({ isOpen, onClose }) => {
             </div>
 
             {/* Title */}
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
               {currentSlideData.title}
             </h2>
 
