@@ -65,28 +65,21 @@ const VideoPresentation = ({ isOpen, onClose }) => {
   // Auto-advance slides when playing
   useEffect(() => {
     if (!isPlaying || !isOpen) return
-    console.log('Presentation playing, current slide:', currentSlide)
 
     const interval = setInterval(() => {
       setCurrentSlide((prev) => {
         const next = prev + 1
         if (next >= totalSlides) {
           setIsPlaying(false)
-          setTimeout(() => {
-            onClose()
-            console.log('Presentation finished')
-          }, 500)
+          setTimeout(onClose, 500)
           return prev
         }
         return next
       })
     }, slideDuration)
 
-    return () => {
-      clearInterval(interval)
-      console.log('Interval cleared')
-    }
-  }, [isPlaying, isOpen, totalSlides, slideDuration, onClose, currentSlide])
+    return () => clearInterval(interval)
+  }, [isPlaying, isOpen, totalSlides, slideDuration, onClose])
 
   // Update progress bar
   useEffect(() => {
@@ -95,9 +88,7 @@ const VideoPresentation = ({ isOpen, onClose }) => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         const next = prev + (100 / (15000 / 50))
-        if (next >= 100) {
-          return 100
-        }
+        if (next >= 100) return 100
         return next
       })
     }, 50)
@@ -105,21 +96,13 @@ const VideoPresentation = ({ isOpen, onClose }) => {
     return () => clearInterval(interval)
   }, [isPlaying, isOpen])
 
-  // Auto-play when opened
+  // Handle open/close
   useEffect(() => {
-    console.log('isOpen changed:', isOpen)
     if (isOpen) {
       document.body.style.overflow = 'hidden'
       setCurrentSlide(0)
       setProgress(0)
-      setIsPlaying(false)
-      
-      // Start playing after a short delay
-      const timer = setTimeout(() => {
-        setIsPlaying(true)
-        console.log('Presentation started')
-      }, 500)
-      
+      const timer = setTimeout(() => setIsPlaying(true), 500)
       return () => clearTimeout(timer)
     } else {
       document.body.style.overflow = 'unset'
@@ -129,47 +112,28 @@ const VideoPresentation = ({ isOpen, onClose }) => {
     }
   }, [isOpen])
 
-  const handlePlay = () => {
-    console.log('Play clicked')
-    setIsPlaying(true)
-  }
-  
-  const handlePause = () => {
-    console.log('Pause clicked')
-    setIsPlaying(false)
-  }
-
+  const handlePlay = () => setIsPlaying(true)
+  const handlePause = () => setIsPlaying(false)
   const handleReset = () => {
-    console.log('Reset clicked')
     setCurrentSlide(0)
     setProgress(0)
     setIsPlaying(true)
   }
-
   const handleClose = () => {
-    console.log('Close clicked')
     setIsPlaying(false)
     onClose()
   }
 
-  if (!isOpen) {
-    console.log('Presentation closed, returning null')
-    return null
-  }
+  if (!isOpen) return null
 
   const currentSlideData = slides[currentSlide]
   const CurrentIcon = currentSlideData.icon
 
-  console.log('Rendering slide:', currentSlide, currentSlideData.title)
-
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center">
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={handleClose} />
 
-      {/* Modal */}
       <div className="relative w-full max-w-5xl mx-4 bg-arq-navy-950 rounded-lg overflow-hidden shadow-2xl">
-        {/* Close Button */}
         <button
           onClick={handleClose}
           className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
@@ -178,9 +142,7 @@ const VideoPresentation = ({ isOpen, onClose }) => {
           <X className="w-5 h-5 text-white" />
         </button>
 
-        {/* Content */}
         <div className={`relative h-[500px] bg-gradient-to-br ${currentSlideData.bg} transition-all duration-700`}>
-          {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden">
             {[...Array(30)].map((_, i) => (
               <div
@@ -196,31 +158,25 @@ const VideoPresentation = ({ isOpen, onClose }) => {
             ))}
           </div>
 
-          {/* Main Content */}
           <div className="relative h-full flex flex-col items-center justify-center text-center px-8">
-            {/* Icon */}
             <div className="mb-8">
               <div className="w-24 h-24 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm border border-white/20 animate-bounce">
                 <CurrentIcon className="w-12 h-12 text-arq-gold-400" />
               </div>
             </div>
 
-            {/* Title */}
             <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
               {currentSlideData.title}
             </h2>
 
-            {/* Subtitle */}
             <p className="text-xl text-arq-gold-400 mb-6 font-medium">
               {currentSlideData.subtitle}
             </p>
 
-            {/* Description */}
             <p className="text-arq-stone-300 text-lg max-w-xl whitespace-pre-line leading-relaxed">
               {currentSlideData.description}
             </p>
 
-            {/* Slide Indicators */}
             <div className="flex gap-2 mt-12">
               {slides.map((_, index) => (
                 <div
@@ -238,9 +194,7 @@ const VideoPresentation = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Controls */}
         <div className="bg-arq-navy-950 px-6 py-4">
-          {/* Progress Bar */}
           <div className="w-full h-2 bg-arq-stone-700 rounded-full mb-4 overflow-hidden">
             <div
               className="h-full bg-arq-gold-500 transition-all duration-100"
@@ -248,10 +202,8 @@ const VideoPresentation = ({ isOpen, onClose }) => {
             />
           </div>
 
-          {/* Control Buttons */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              {/* Play/Pause */}
               <button
                 onClick={isPlaying ? handlePause : handlePlay}
                 className="w-12 h-12 rounded-full bg-arq-gold-500 flex items-center justify-center hover:bg-arq-gold-600 transition-colors"
@@ -264,7 +216,6 @@ const VideoPresentation = ({ isOpen, onClose }) => {
                 )}
               </button>
 
-              {/* Reset */}
               <button
                 onClick={handleReset}
                 className="w-10 h-10 rounded-full bg-arq-stone-700 flex items-center justify-center hover:bg-arq-stone-600 transition-colors"
@@ -273,13 +224,11 @@ const VideoPresentation = ({ isOpen, onClose }) => {
                 <RotateCcw className="w-4 h-4 text-white" />
               </button>
 
-              {/* Time Display */}
               <div className="text-arq-stone-400 text-sm font-mono">
                 {Math.floor((progress / 100) * 15)}s / 15s
               </div>
             </div>
 
-            {/* Slide Counter */}
             <div className="text-arq-stone-400 text-sm">
               Slide {currentSlide + 1} de {totalSlides}
             </div>
