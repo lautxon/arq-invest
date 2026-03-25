@@ -1,4 +1,4 @@
-import { CreditCard, Bitcoin, Building, FileText, Shield, Calendar, Wallet, Landmark, Briefcase } from 'lucide-react'
+import { CreditCard, Bitcoin, Building, FileText, Shield, Calendar, Wallet as WalletIcon, Landmark, Briefcase } from 'lucide-react'
 
 const PaymentOptions = () => {
   const paymentMethods = [
@@ -7,18 +7,24 @@ const PaymentOptions = () => {
       title: 'Mercado Pago',
       description: 'Pagá con saldo, tarjeta o QR. Aceptamos todas las tarjetas argentinas.',
       color: 'arq-gold',
+      action: 'https://www.mercadopago.com.ar',
+      actionLabel: 'Iniciar Pago',
     },
     {
       icon: CreditCard,
       title: 'Transferencia Bancaria',
       description: 'Pesos o dólares. Cuentas en Argentina y exterior.',
       color: 'arq-navy',
+      action: '#contacto',
+      actionLabel: 'Solicitar CBU',
     },
     {
       icon: Bitcoin,
       title: 'Criptomonedas',
       description: 'Bitcoin, Ethereum, USDT. Wallet segura y custodia.',
       color: 'arq-gold',
+      action: '#contacto',
+      actionLabel: 'Coordinar',
     },
   ]
 
@@ -107,9 +113,18 @@ const PaymentOptions = () => {
               <h3 className="text-xl font-display font-semibold text-arq-navy-900 mb-3">
                 {method.title}
               </h3>
-              <p className="text-arq-stone-600">
+              <p className="text-arq-stone-600 mb-6">
                 {method.description}
               </p>
+              <a
+                href={method.action}
+                target={method.action.startsWith('http') ? '_blank' : '_self'}
+                rel={method.action.startsWith('http') ? 'noopener noreferrer' : undefined}
+                className={`btn-${method.color === 'arq-gold' ? 'gold' : 'primary'} inline-flex items-center gap-2 text-sm px-6 py-3`}
+              >
+                <WalletIcon className="w-4 h-4" />
+                {method.actionLabel}
+              </a>
             </div>
           ))}
         </div>
