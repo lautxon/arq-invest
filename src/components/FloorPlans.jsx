@@ -33,7 +33,7 @@ const FloorPlans = () => {
       id: '3amb',
       name: '3 Ambientes',
       m2: '95-120 m²',
-      image: 'https://images.unsplash.com/photo-1484154218962-a1c002085d2f?q=80&w=1000&auto=format&fit=crop',
+      image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1000&auto=format&fit=crop',
       features: [
         'Estar comedor amplio',
         '2 Dormitorios en suite',
