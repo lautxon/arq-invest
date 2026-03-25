@@ -1,7 +1,13 @@
-import { CreditCard, Bitcoin, Building, FileText, Shield, Calendar } from 'lucide-react'
+import { CreditCard, Bitcoin, Building, FileText, Shield, Calendar, Wallet, Landmark, Briefcase } from 'lucide-react'
 
 const PaymentOptions = () => {
   const paymentMethods = [
+    {
+      icon: Wallet,
+      title: 'Mercado Pago',
+      description: 'Pagá con saldo, tarjeta o QR. Aceptamos todas las tarjetas argentinas.',
+      color: 'arq-gold',
+    },
     {
       icon: CreditCard,
       title: 'Transferencia Bancaria',
@@ -14,11 +20,32 @@ const PaymentOptions = () => {
       description: 'Bitcoin, Ethereum, USDT. Wallet segura y custodia.',
       color: 'arq-gold',
     },
+  ]
+
+  const bankOptions = [
+    {
+      icon: Landmark,
+      name: 'Banco Nación',
+      title: 'Hipotecario AR',
+      description: 'Hasta 30 años. Tasa fija en pesos. Acepta ingresos informales.',
+      rate: 'Desde 119% TNA',
+      color: 'arq-navy',
+    },
     {
       icon: Building,
-      title: 'Financiación Directa',
-      description: 'Plan de pagos escalonado en hasta 24 cuotas.',
+      name: 'Banco Ciudad',
+      title: 'Crédito Construcción',
+      description: 'Para construcción o ampliación. Hasta 80% del valor del proyecto.',
+      rate: 'Desde 99% TNA',
       color: 'arq-sage',
+    },
+    {
+      icon: Briefcase,
+      name: 'Banco Supervielle',
+      title: 'Préstamo Inversión',
+      description: 'Para inversores. Financiación en UVA o tasa fija. Rápida aprobación.',
+      rate: 'Desde 85% TNA',
+      color: 'arq-gold',
     },
   ]
 
@@ -94,7 +121,7 @@ const PaymentOptions = () => {
               Cronograma de Pagos Típico
             </h3>
             <p className="text-arq-stone-300 max-w-2xl mx-auto">
-              Estructura flexible que se adapta al avance de obra. 
+              Estructura flexible que se adapta al avance de obra.
               Invertí en pozo con máxima seguridad y rentabilidad.
             </p>
           </div>
@@ -111,7 +138,7 @@ const PaymentOptions = () => {
                 {index < paymentStages.length - 1 && (
                   <div className="hidden md:block absolute top-8 left-1/2 w-full h-0.5 bg-arq-gold-500/30"></div>
                 )}
-                
+
                 {/* Icon */}
                 <div className="relative w-16 h-16 mx-auto mb-6 bg-arq-gold-500 rounded-full flex items-center justify-center shadow-lg shadow-arq-gold-500/30">
                   <stage.icon className="w-7 h-7 text-white" />
@@ -149,6 +176,56 @@ const PaymentOptions = () => {
               <div className="text-arq-gold-400 text-sm mb-2">Descuento</div>
               <div className="text-white font-semibold">Hasta 15% en pozo</div>
             </div>
+          </div>
+        </div>
+
+        {/* Bank Options - Argentina */}
+        <div className="gsap-fade-in mt-16">
+          <div className="text-center mb-12">
+            <span className="text-arq-gold-600 font-medium tracking-widest text-sm uppercase mb-4 block">
+              Financiación Bancaria
+            </span>
+            <h3 className="text-3xl md:text-4xl font-display font-bold text-arq-navy-900 mb-4">
+              Bancos Nacionales
+            </h3>
+            <p className="text-arq-stone-600 text-lg max-w-3xl mx-auto">
+              Trabajamos con las principales entidades bancarias de Argentina 
+              para ofrecerte las mejores condiciones de financiación.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {bankOptions.map((bank, index) => (
+              <div
+                key={index}
+                className="gsap-fade-in bg-white border-4 border-arq-stone-200 p-8 rounded-sm card-hover"
+                style={{ transitionDelay: `${index * 100}ms` }}
+              >
+                <div className={`w-16 h-16 rounded-sm bg-${bank.color}-100 flex items-center justify-center mx-auto mb-6`}>
+                  <bank.icon className={`w-8 h-8 text-${bank.color}-600`} />
+                </div>
+                
+                <h4 className="text-xl font-display font-semibold text-arq-navy-900 mb-2 text-center">
+                  {bank.name}
+                </h4>
+                <p className="text-arq-gold-600 font-medium text-center mb-4">
+                  {bank.title}
+                </p>
+                <p className="text-arq-stone-600 text-sm text-center mb-4 leading-relaxed">
+                  {bank.description}
+                </p>
+                <div className="bg-arq-stone-50 border border-arq-stone-200 rounded-sm p-4 text-center">
+                  <span className="text-arq-stone-500 text-xs uppercase tracking-wide">Tasa</span>
+                  <p className="text-arq-navy-900 font-bold text-lg">{bank.rate}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-arq-stone-500 text-sm italic">
+              * Tasas sujetas a cambio. Consultar condiciones actualizadas en cada banco.
+            </p>
           </div>
         </div>
 
